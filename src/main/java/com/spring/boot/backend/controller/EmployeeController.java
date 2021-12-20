@@ -32,10 +32,12 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	
 	/**
+	 * This method can be accessed by user whose role is admin
 	 * To retrieve the List of Employee we can use this API.
 	 * @return Employee
 	 */
 	@GetMapping("/employees")
+	//@RolesAllowed("admin")
 	public List<Employee> getAllEmployees() {
 		List<Employee> emps = employeeService.getAllEmp();
 		if (emps != null) {
@@ -52,21 +54,29 @@ public class EmployeeController {
 	}
 
 	// get employee by id rest api
+	//this method can be accessed by user whose role is user
 	@GetMapping("/employees/{id}")
+	//@RolesAllowed("user")
 	public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
 		return employeeService.getsEmployeeById(id);
 	}
 
 	// update employee rest api
-
 	@PutMapping("/employees/{id}")
+	//@RolesAllowed("admin")
 	public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetail) {
 		return employeeService.updateEmployee(id, employeeDetail);
 	}
 
 	// delete employee rest api
-	@DeleteMapping("/employees/{id}")
+	@DeleteMapping("/employees/{firstName}")
 	public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id) {
 		return employeeService.deleteEmployee(id);
+	}
+
+	// search employee by employee name
+	@GetMapping("/employees/search/{firstName}")
+	public List<Employee> employeeSearch(@PathVariable String firstName) {
+		return employeeService.employeeSearchs(firstName);
 	}
 }
