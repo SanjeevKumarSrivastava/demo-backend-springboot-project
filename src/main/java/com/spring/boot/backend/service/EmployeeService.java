@@ -63,4 +63,9 @@ public class EmployeeService {
 		reponse.put("Deleted", Boolean.TRUE);
 		return ResponseEntity.ok(reponse);
 	}
+	
+	public List<Employee> employeeSearchs(String firstName){
+		List<Employee> employees=employeeRepository.findByFirstName(firstName);
+		return employees;
+	}
 }
